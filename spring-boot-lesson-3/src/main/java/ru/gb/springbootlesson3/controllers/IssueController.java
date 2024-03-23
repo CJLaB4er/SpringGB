@@ -5,13 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.gb.springbootlesson3.entity.Issue;
 import ru.gb.springbootlesson3.services.IssueService;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -20,8 +19,9 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class IssueController {
 
-    @Autowired
-    private IssueService service;
+	@Autowired
+	private IssueService service;
+
 
 
 
@@ -32,15 +32,21 @@ public class IssueController {
         DELETE - запрос на удаление ресурса
      */
 
-    @PostMapping
-    public ResponseEntity<Issue> issueBook(@RequestBody IssueRequest issueRequest) {
-        log.info("Поступил запрос на выдачу: readerId={}, bookId={}"
-                , issueRequest.getReaderId(), issueRequest.getBookId());
+	@PostMapping
+	public ResponseEntity<Issue> issueBook(@RequestBody IssueRequest issueRequest) {
+		log.info("Поступил запрос на выдачу: readerId={}, bookId={}"
+				, issueRequest.getReaderId(), issueRequest.getBookId());
 
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(service.createIssue(issueRequest));
-        } catch (NoSuchElementException e){
-            return ResponseEntity.notFound().build();
-        }
-    }
+		try {
+			return ResponseEntity.status(HttpStatus.CREATED).body(service.createIssue(issueRequest));
+		} catch (NoSuchElementException e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@GetMapping("{id}")
+	public String getIssueById(@PathVariable long id) {
+		log.info(LocalDateTime.now() + " поступил запрос информации о выдаче с id ={}", id);
+		return service.getIssueById(id).toString();
+	}
 }

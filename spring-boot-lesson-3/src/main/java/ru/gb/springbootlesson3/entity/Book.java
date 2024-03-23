@@ -10,7 +10,7 @@ public class Book {
     private final String name;
 
     public Book(String name) {
-        id = genId++;
+        id = ++genId;
         this.name = name;
     }
 }

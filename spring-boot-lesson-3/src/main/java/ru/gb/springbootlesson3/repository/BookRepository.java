@@ -10,17 +10,33 @@ import java.util.List;
 
 @Repository
 public class BookRepository {
-    private List<Book> list = new ArrayList<>();
+	private List<Book> list = new ArrayList<>();
 
-    public BookRepository() {
-        list.add(new Book("Война и мир"));
-        list.add(new Book("Мастер и Маргарита"));
-        list.add(new Book("Приключения Буратино"));
-    }
+	public BookRepository() {
+		list.add(new Book("Война и мир"));
+		list.add(new Book("Мастер и Маргарита"));
+		list.add(new Book("Приключения Буратино"));
+	}
 
-    public Book findById(long id){
-        return list.stream().filter(e -> e.getId() == id)
-                .findFirst()
-                .orElse(null);
-    }
+	public Book findById(long id) {
+		return list.stream().filter(e -> e.getId() == id)
+				.findFirst()
+				.orElse(null);
+	}
+
+	public List<Book> getAllBooks() {
+		return List.copyOf(list);
+	}
+
+	public Book deleteById(long id) {
+		Book book = findById(id);
+		list.remove(book);
+		return book;
+	}
+
+	public Book addNewBook(String name) {
+		Book book = new Book(name);
+		list.add(book);
+		return book;
+	}
 }

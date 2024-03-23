@@ -4,11 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.gb.springbootlesson3.controllers.IssueRequest;
+import ru.gb.springbootlesson3.entity.Book;
 import ru.gb.springbootlesson3.entity.Issue;
 import ru.gb.springbootlesson3.repository.BookRepository;
 import ru.gb.springbootlesson3.repository.IssueRepository;
 import ru.gb.springbootlesson3.repository.ReaderRepository;
 
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -31,6 +33,16 @@ public class IssueService {
 
         Issue issue = new Issue(request.getReaderId(), request.getBookId());
         issueRepository.createIssue(issue);
+        return issue;
+    }
+
+    public Issue getIssueById(long id) {
+        Issue issue = issueRepository.findById(id);
+        if (issue == null) {
+            log.info(LocalDateTime.now() + " запрос с id={}, не найден", id);
+        } else {
+            log.info(LocalDateTime.now() + " отправлена информаци по запросу с id={}", id);
+        }
         return issue;
     }
 }
