@@ -16,16 +16,16 @@ public class BookService {
 	private final BookRepository bookRepository;
 
 	public List<Book> getAllBooks() {
-		log.info(LocalDateTime.now() + " Выведен список всех книг");
+		log.info("Выведен список всех книг");
 		return bookRepository.getAllBooks();
 	}
 
 	public Book getBookById(long id) {
 		Book book = bookRepository.findById(id);
 		if (book == null) {
-			log.info(LocalDateTime.now() + " Книга с id={}, не найдена", id);
+			log.info("Книга с id={}, не найдена", id);
 		} else {
-			log.info(LocalDateTime.now() + " Отправлено наименовании книги с id={}", id);
+			log.info("Отправлено наименовании книги с id={}", id);
 		}
 		return book;
 	}
@@ -33,16 +33,17 @@ public class BookService {
 	public Book deleteBookById(long id) {
 		Book book = bookRepository.deleteById(id);
 		if (book == null) {
-			log.info(LocalDateTime.now() + " Книга с id={}, не найдена, запрос на удаление не выполнен", id);
+			log.info("Книга с id={}, не найдена, запрос на удаление не выполнен", id);
+			return null;
 		} else {
-			log.info(LocalDateTime.now() + " Книга с id={} удалена", id);
+			log.info("Книга с id={} удалена", id);
 		}
 		return book;
 	}
 
 	public Book createBook(String name) {
 		Book book = bookRepository.addNewBook(name);
-		log.info(LocalDateTime.now() + String.format(" в репозиторий добавлена новая книга \"%s\", присвоен id=\"%d\""
+		log.info(String.format(" в репозиторий добавлена новая книга \"%s\", присвоен id=\"%d\""
 				, name, book.getId()));
 		return book;
 	}

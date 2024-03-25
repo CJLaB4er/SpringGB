@@ -7,6 +7,7 @@ import ru.gb.springbootlesson3.entity.Issue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class BookRepository {
@@ -35,8 +36,19 @@ public class BookRepository {
 	}
 
 	public Book addNewBook(String name) {
+		if (list.contains(findByName(name))) {
+			return list.get(list.indexOf(name)).increaseCount();
+
+		}
 		Book book = new Book(name);
 		list.add(book);
 		return book;
+	}
+
+	public Book findByName(String name) {
+		return list.stream()
+				.filter(e -> e.getName().equalsIgnoreCase(name))
+				.findFirst()
+				.orElse(null);
 	}
 }

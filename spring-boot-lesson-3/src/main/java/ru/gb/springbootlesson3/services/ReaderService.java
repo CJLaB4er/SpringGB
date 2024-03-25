@@ -20,16 +20,16 @@ public class ReaderService {
 	private final IssueRepository issueRepository;
 
 	public List<Reader> getAllReaders() {
-		log.info(LocalDateTime.now() + " Выведен список всех читателей");
+		log.info("Выведен список всех читателей");
 		return readerRepository.getAllReaders();
 	}
 
 	public Reader getReaderById(long id) {
 		Reader reader = readerRepository.findById(id);
 		if (reader == null) {
-			log.info(LocalDateTime.now() + " Читатель с id={}, не найдена", id);
+			log.info("Читатель с id={}, не найдена", id);
 		} else {
-			log.info(LocalDateTime.now() + " Отправлено имя читателя с id={}", id);
+			log.info("Отправлено имя читателя с id={}", id);
 		}
 		return reader;
 	}
@@ -37,16 +37,16 @@ public class ReaderService {
 	public Reader deleteReaderById(long id) {
 		Reader reader = readerRepository.deleteById(id);
 		if (reader == null) {
-			log.info(LocalDateTime.now() + " Читатель с id={}, не найден, запрос на удаление не выполнен", id);
+			log.info("Читатель с id={}, не найден, запрос на удаление не выполнен", id);
 		} else {
-			log.info(LocalDateTime.now() + " Читатлель с id={} удален", id);
+			log.info("Читатлель с id={} удален", id);
 		}
 		return reader;
 	}
 
 	public Reader createReader(String name) {
 		Reader reader = readerRepository.addNewReader(name);
-		log.info(LocalDateTime.now() + String.format(" в репозиторий добавлен новый читатель \"%s\", присвоен id=\"%d\""
+		log.info(String.format("В репозиторий добавлен новый читатель \"%s\", присвоен id=\"%d\""
 				, name, reader.getId()));
 		return reader;
 	}

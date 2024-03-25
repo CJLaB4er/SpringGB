@@ -2,11 +2,13 @@ package ru.gb.springbootlesson3.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.springbootlesson3.entity.Book;
 import ru.gb.springbootlesson3.services.BookService;
 
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 @Slf4j
@@ -22,23 +24,30 @@ public class BookController {
 	private final String MSGCREATE = "Отправлен запрос на добавление новой книги {}";
 
 	@GetMapping
-	public List<Book> getAllBooks() {
+	public ResponseEntity<List<Book>> getAllBooks() {
 		log.info(MSGGETALL);
-		return bookService.getAllBooks();
+		return ResponseEntity.status(HttpStatus.OK).body(bookService.getAllBooks());
 	}
 
 	@GetMapping("{id}")
-	public String getBookById(@PathVariable long id) {
+	public ResponseEntity<String> getBookById(@PathVariable long id) {
 		log.info(MSGGETBYID, id);
-		Book book = bookService.getBookById(id);
-		if (book == null) return String.format(MSGNOTFOUNDBYID, id);
-		return book.getName();
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(bookService.getBookById(id).toString());
+		} catch (NullPointerException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format(MSGNOTFOUNDBYID, id));
+		}
 	}
 
+
 	@DeleteMapping("{id}")
-	public Book deleteBookById(@PathVariable long id) {
+	public ResponseEntity<String> deleteBookById(@PathVariable long id) {
 		log.info(MSGDELEBYID, id);
-		return bookService.deleteBookById(id);
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(bookService.deleteBookById(id) + " запись удалена.");
+		} catch (NullPointerException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format(MSGNOTFOUNDBYID, id));
+		}
 	}
 
 	@PostMapping
@@ -46,6 +55,6 @@ public class BookController {
 		log.info(MSGCREATE, nameBook);
 		return bookService.createBook(nameBook);
 	}
-
-
 }
+
+

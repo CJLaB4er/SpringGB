@@ -10,12 +10,10 @@ import java.util.List;
 public class IssueRepository {
 	private List<Issue> list = new ArrayList<>();
 
-	public IssueRepository() {
-		list.add(new Issue(1, 2));
-		list.add(new Issue(2, 2));
-		list.add(new Issue(3, 1));
-		list.add(new Issue(1, 1));
+	public List<Issue> getAllIssues() {
+		return List.copyOf(list);
 	}
+
 
 	public void createIssue(Issue issue) {
 		list.add(issue);
@@ -29,4 +27,9 @@ public class IssueRepository {
 	}
 
 
+	public List<Issue> getReaderIssuers(long id) {
+		return list.stream()
+				.filter(e -> e.getIdReader() == id)
+				.toList();
+	}
 }
