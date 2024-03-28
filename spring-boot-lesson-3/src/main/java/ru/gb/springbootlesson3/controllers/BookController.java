@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.springbootlesson3.entity.Book;
 import ru.gb.springbootlesson3.services.BookService;
@@ -55,6 +56,8 @@ public class BookController {
 		log.info(MSGCREATE, nameBook);
 		return bookService.createBook(nameBook);
 	}
+
+
 }
 
 

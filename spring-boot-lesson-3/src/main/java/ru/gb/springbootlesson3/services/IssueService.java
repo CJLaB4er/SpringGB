@@ -28,6 +28,7 @@ public class IssueService {
 	private final IssueRepository issueRepository;
 	private final ReaderRepository readerRepository;
 
+
 	@Value("${application.issue.max-allowed-books:1}")
 	private Integer LIMIT; // ограничение по кол-ву книг на руках
 

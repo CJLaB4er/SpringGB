@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>issues</title>
+    <link rel="stylesheet" href="../static/styles/styles.css">
+</head>
+<body>
+<table>
+    <tr>
+        <th>id</th>
+        <th>Книга</th>
+        <th>Читатель</th>
+        <th>Когда взял</th>
+        <th>Когда вернул</th>
+    </tr>
+    <tr th:each="issue: ${table}">
+        <td th:text="${issue.getId()}"></td>
+        <td th:text="${bookRepo.findById(issue.getIdBook()).getName()}"></td>
+        <td th:text="${readerRepo.findById(issue.getIdReader()).getName()}"></td>
+        <td th:text="${issue.getIssued_at}"></td>
+        <td th:text="${issue.getReturned_at}"></td>
+    </tr>
+</table>
+</body>
+</html>
