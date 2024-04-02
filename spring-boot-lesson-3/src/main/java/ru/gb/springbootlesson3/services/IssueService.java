@@ -32,6 +32,7 @@ public class IssueService {
 	@Value("${application.issue.max-allowed-books:1}")
 	private Integer LIMIT; // ограничение по кол-ву книг на руках
 
+
 	public Issue createIssue(IssueRequest request) {
 		Reader reader = readerRepository.findById(request.getReaderId());
 		if (reader == null) {

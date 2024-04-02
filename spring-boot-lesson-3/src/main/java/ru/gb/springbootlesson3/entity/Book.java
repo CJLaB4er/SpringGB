@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Book {
 	private static long genId;
-	private int count = 1; //общее количество данных книг
+	private int count = 10; //общее количество данных книг
 
 	private final long id;
 	private final String name;

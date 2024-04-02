@@ -9,34 +9,42 @@ import java.util.List;
 
 @Data
 public class Reader {
-	private static long genId;
+    private static long genId;
 
-	private final long id;
-	private final String name;
-	private List<Book> bookList;
+    private final long id;
+    private final String name;
+    private List<Book> bookList;
 
-	public Reader(String name) {
-		id = ++genId;
-		this.name = name;
-		bookList = new ArrayList<>();
-	}
+    public Reader(String name) {
+        id = ++genId;
+        this.name = name;
+        bookList = new ArrayList<>();
+    }
 
-	public Reader addBook(Book book) {
-		bookList.add(book);
-		return this;
-	}
+    public Reader addBook(Book book) {
+        bookList.add(book);
+        return this;
+    }
 
-	@Override
-	public String toString() {
-		return "{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				", bookList=" + bookList +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", bookList=" + bookList +
+                '}';
+    }
 
-	public Reader removeBook(Book book) {
-		bookList.remove(book);
-		return this;
-	}
+    public Reader removeBook(Book book) {
+        bookList.remove(book);
+        return this;
+    }
+
+    public List<String> getTitlesBooks() {
+        List<String> titles = new ArrayList<>();
+        for (Book book : bookList) {
+            titles.add(book.getName());
+        }
+        return titles;
+    }
 }

@@ -15,58 +15,67 @@ import java.util.NoSuchElementException;
 @Slf4j
 @RestController
 @RequestMapping("issue")
-@RequiredArgsConstructor
 public class IssueController {
 
-	@Autowired
-	private IssueService service;
-	private final String MSGNOTFOUNDBYID = "Запрос с id=%d не найден";
-	private final String MSGGETALL = "Отправлен запрос на получение списка всех запросов";
+
+    private IssueService service;
+    private final String MSGNOTFOUNDBYID = "Запрос с id=%d не найден";
+    private final String MSGGETALL = "Отправлен запрос на получение списка всех запросов";
 
 
-	/*
-		GET - получение записей
-		POST - создание записей
-		PUT - изменение записей
-		DELETE - запрос на удаление ресурса
-	 */
-	@GetMapping
-	public ResponseEntity<List<Issue>> getAllIssues() {
-		log.info(MSGGETALL);
-		return ResponseEntity.status(HttpStatus.OK).body(service.getAllIssues());
-	}
+    /*
+        GET - получение записей
+        POST - создание записей
+        PUT - изменение записей
+        DELETE - запрос на удаление ресурса
+     */
 
-	@PostMapping
-	public ResponseEntity<String> issueBook(@RequestBody IssueRequest issueRequest) {
-		log.info("Поступил запрос на выдачу: readerId={}, bookId={}"
-				, issueRequest.getReaderId(), issueRequest.getBookId());
+    @Autowired
+    public IssueController(IssueService service) {
+        this.service = service;
+        service.createIssue(new IssueRequest(1, 1));
+        service.createIssue(new IssueRequest(1, 2));
+        service.createIssue(new IssueRequest(2, 1));
+    }
 
-		try {
-			return ResponseEntity.status(HttpStatus.CREATED).body(service.createIssue(issueRequest).toString());
-		} catch (NoSuchElementException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-		}catch (RuntimeException e){
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-		}
-	}
+    @GetMapping
+    public ResponseEntity<List<Issue>> getAllIssues() {
+        log.info(MSGGETALL);
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAllIssues());
+    }
 
-	@GetMapping("{id}")
-	public ResponseEntity<String> getIssueById(@PathVariable long id) {
-		log.info("поступил запрос информации о выдаче с id ={}", id);
-		try {
-			return ResponseEntity.status(HttpStatus.OK).body(service.getIssueById(id).toString());
-		} catch (NullPointerException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format(MSGNOTFOUNDBYID, id));
-		}
-	}
+    @PostMapping
+    public ResponseEntity<String> issueBook(@RequestBody IssueRequest issueRequest) {
+        log.info("Поступил запрос на выдачу: readerId={}, bookId={}"
+                , issueRequest.getReaderId(), issueRequest.getBookId());
 
-	@PutMapping("{issueId}")
-	public ResponseEntity<String> changeIssue(@PathVariable long issueId) {
-		log.info("поступил запрос изменении информации о выдаче с id ={}", issueId);
-		try {
-			return ResponseEntity.status(HttpStatus.OK).body(service.cahngeIssueById(issueId).toString());
-		} catch (NullPointerException e) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format(MSGNOTFOUNDBYID, issueId));
-		}
-	}
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(service.createIssue(issueRequest).toString());
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<String> getIssueById(@PathVariable long id) {
+        log.info("поступил запрос информации о выдаче с id ={}", id);
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.getIssueById(id).toString());
+        } catch (NullPointerException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format(MSGNOTFOUNDBYID, id));
+        }
+    }
+
+    @PutMapping("{issueId}")
+    public ResponseEntity<String> changeIssue(@PathVariable long issueId) {
+        log.info("поступил запрос изменении информации о выдаче с id ={}", issueId);
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.cahngeIssueById(issueId).toString());
+        } catch (NullPointerException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format(MSGNOTFOUNDBYID, issueId));
+        }
+    }
+
 }
