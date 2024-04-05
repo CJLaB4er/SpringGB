@@ -38,7 +38,7 @@ public class IssueService {
 
     public boolean checkReader(Reader reader) {
         String[] books = reader.getBookList().split(",");
-        return books.length > 2 ? true : false;
+        return books.length > 1 ? true : false;
     }
 
     @EventListener(ContextRefreshedEvent.class)

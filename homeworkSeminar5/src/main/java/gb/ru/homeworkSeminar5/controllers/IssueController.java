@@ -37,6 +37,8 @@ public class IssueController {
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Читатель с id=" + idReader +
                     "или книга с id=" + idBook + "не найдены.");
+        }catch (NullPointerException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Превышен лимит книг на руках.");
         }
     }
 }
