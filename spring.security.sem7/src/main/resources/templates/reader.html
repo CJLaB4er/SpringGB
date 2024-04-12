@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>readers</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>id</th>
+        <th>Имя</th>
+        <th>Список книг</th>
+    </tr>
+    <tr th:each="reader: ${table}">
+        <td th:text="${reader.getId()}"></td>
+        <td th:text="${reader.getName()}"></td>
+        <td th:text="${reader.getTitlesBooks()}"></td>
+    </tr>
+</table>
+</body>
+</html>
