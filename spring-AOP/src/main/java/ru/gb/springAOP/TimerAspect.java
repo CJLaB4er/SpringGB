@@ -24,8 +24,8 @@ public class TimerAspect {
         long startTime = System.currentTimeMillis();
         Object result = joinPoint.proceed();
         Long deltaTime = System.currentTimeMillis() - startTime;
-        System.out.println("Метод " + joinPoint.getSignature().getName() + " в классе "
-                + joinPoint.getTarget().getClass().getSimpleName() + " выполнился за " +
+
+        System.out.println("Метод " + joinPoint.getTarget().getClass().getSimpleName() + " выполнился за " +
                 deltaTime + " миллисекунд.");
         return result;
     }
