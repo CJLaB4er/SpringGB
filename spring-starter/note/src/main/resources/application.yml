@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: spring-service
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/note_service
+    username: root
+    password: password
+    driver-class-name: com.mysql.jdbc.Driver
+
+server:
+  port: 8080
+
+management:
+  endpoint:
+    env:
+      show-values: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: env, prometheus, health, info, metric
